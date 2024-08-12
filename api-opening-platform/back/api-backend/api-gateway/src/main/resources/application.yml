@@ -1,0 +1,25 @@
+server:
+  port: 8090
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - AddRequestHeader=source, zcy
+      routes:
+        - id: api_route
+          uri: http://localhost:8123
+          predicates:
+            - Path=/api/**
+dubbo:
+  application:
+    name: dubbo-springboot-demo-consumer
+    logger: slf4j
+    qos-port: 33333
+  registry:
+    address: nacos://${nacos.address:127.0.0.1}:8848?username=nacos&password=nacos
